@@ -1,8 +1,9 @@
 // api.js
 import {OpenAIApi} from "openai";
 
+const OPENAI_API_KEY=import.meta.env.VITE_OPENAI_API_KEY
+
 const openai = new OpenAIApi();
-const OPENAI_API_KEY="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"
 const headers = {
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${OPENAI_API_KEY}`,
