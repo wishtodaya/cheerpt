@@ -10,11 +10,11 @@ import { ref } from "vue";
 
 const message = ref("");
 
-const emit = defineEmits(["submit"]);
+const emit = defineEmits(["send"]);
 
 function submitMessage() {
   if (message.value.trim()) {
-    emit("submit", message.value);
+    emit("send", message.value);
     message.value = "";
   }
 }

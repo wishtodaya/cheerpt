@@ -1,16 +1,18 @@
 <template>
   <div class="message" :class="message.type">
-    <span>{{ message.text }}</span>
+    <span>{{ message.content }}</span>
   </div>
 </template>
 
 <script setup>
+
 const props = defineProps({
   message: {
     type: Object,
     required: true,
   },
 });
+console.log(props);
 </script>
 
 <style scoped>

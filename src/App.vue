@@ -1,27 +1,32 @@
 <template>
-  <div class="container">
+  <div id="app">
     <div class="chat-container">
-      <div class="messages">
-        <ChatMessage v-for="(message, index) in messages" :key="index" :message="message" />
-      </div>
-      <ChatInput @submit="sendMessage" />
+      <ChatMessage v-for="(message, index) in messages" :key="index" :message="message" />
     </div>
+    <ChatInput @send="handleSendMessage" />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import ChatInput from "./components/ChatInput.vue";
+import { ref, onMounted } from "vue";
 import ChatMessage from "./components/ChatMessage.vue";
-import api from "./services/api";
+import ChatInput from "./components/ChatInput.vue";
+import { getChatCompletion } from "./services/api.js";
 
 const messages = ref([]);
 
-async function sendMessage(text) {
-  messages.value.push({ text, type: "user" });
-  const response = await api.sendMessage(text);
-  if (response) {
-    messages.value.push({ text: response.output, type: "chatgpt" });
+onMounted(() => {
+  messages.value.push({ role: "system", content: "You are a helpful assistant." });
+});
+
+async function handleSendMessage(inputMessage) {
+  messages.value.push({ role: "user", content: inputMessage });
+
+  try {
+    const chatbotResponse = await getChatCompletion(messages.value);
+    messages.value.push({ role: "assistant", content: chatbotResponse.content });
+  } catch (error) {
+    console.error("Error:", error);
   }
 }
 </script>

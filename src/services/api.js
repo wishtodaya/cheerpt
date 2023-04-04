@@ -1,18 +1,29 @@
-import axios from 'axios';
+// api.js
+import {OpenAIApi} from "openai";
 
-const api = axios.create({
-  baseURL: 'https://api.example.com/chatgpt', // 请将此 URL 替换为实际的 ChatGPT API URL
-  timeout: 10000,
-});
+const openai = new OpenAIApi();
+const OPENAI_API_KEY="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"
+const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${OPENAI_API_KEY}`,
+};
 
-export default {
-  async sendMessage(text) {
-    try {
-      const response = await api.post('/generate', { input: text });
-      return response.data;
-    } catch (error) {
-      console.error('Error sending message:', error);
-      return null;
+async function getChatCompletion(messages) {
+  try {
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: messages,
+    },{
+      headers:headers
     }
-  },
+    );
+    return completion.data.choices[0].message;
+  } catch (error) {
+    console.error("Error fetching chat completion:", error);
+    throw error;
+  }
+}
+
+export {
+  getChatCompletion,
 };
