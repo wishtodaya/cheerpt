@@ -10,7 +10,7 @@
 ## 安装和运行
 克隆项目
 ```
-git clone https://github.com/yourusername/CheerPT.git
+git clone https://github.com/wishtodaya/CheerPT.git
 
 进入项目目录
 cd CheerPT
